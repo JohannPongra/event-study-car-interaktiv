@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Abbildungen · W-Seminar Johann Pongratz</title>
+  <link rel="stylesheet" href="stil.css">
+  <link rel="stylesheet" href="steuerung.css">
+  <script defer src="daten.js"></script>
+  <script defer src="interface.js"></script>
+  <script defer src="steuerung.js"></script>
+</head>
+<body>
+  <header class="masthead"><div class="wrap masthead-inner">
+    <a href="index.html" class="brand"><span class="mark" aria-hidden="true">JP</span> W-Seminar <span class="muted">/ Event Study</span></a>
+    <a href="README.md" class="text-link">Anleitung &amp; Entstehung ↗</a>
+  </div></header>
+  <main class="wrap">
+    <section class="intro">
+      <div><p class="eyebrow">Johann Pongratz · Abbildungsverzeichnis</p>
+      <h1>Analysieren und vergleichen.</h1>
+      <p class="lead">Die interaktive Kopie deiner Event Study. Ergebnisse neu berechnen, Daten sammeln und Grafiken ansehen.</p></div>
+      <div class="edition"><span>Arbeitsstand</span><strong id="document-name">Word-Dokument</strong><small id="updated"></small></div>
+    </section>
+    <section class="workbench" aria-label="Analyse und Datensammlung">
+      <div id="connection" role="status">Verbindung zum lokalen Analyseprogramm wird hergestellt …</div>
+      <div class="work-grid">
+        <article class="work-card">
+          <p class="eyebrow">01 · Vorhandene Daten</p><h2>Analyse erneut durchführen</h2>
+          <p>Alle 170 Quartalsberichte mit einfachen Renditen erneut auswerten. Die zwölf Referenztabellen werden anschließend automatisch geprüft.</p>
+          <button type="button" id="reference" class="primary job-button">Analyse starten</button>
+          <p class="small-note">Verwendet die Daten dieser Kopie. Funktioniert ohne API-Schlüssel und ohne Internet.</p>
+        </article>
+        <article class="work-card">
+          <p class="eyebrow">02 · Neue Daten</p><h2>Bekannte Quellen neu abfragen</h2>
+          <p>Alpha Vantage liefert Kurse, Volumen, Gewinne und Transkripte. Google Trends wird über SerpAPI abgefragt.</p>
+          <form id="download-form">
+            <fieldset><legend>Unternehmen</legend><div class="tickers">
+              <label><input type="checkbox" name="ticker" value="AAPL" checked> Apple</label>
+              <label><input type="checkbox" name="ticker" value="AMZN" checked> Amazon</label>
+              <label><input type="checkbox" name="ticker" value="GOOGL" checked> Alphabet</label>
+              <label><input type="checkbox" name="ticker" value="META" checked> Meta</label>
+              <label><input type="checkbox" name="ticker" value="MSFT" checked> Microsoft</label>
+            </div></fieldset>
+            <div class="form-row"><label>Berichte ab<input id="start" type="date" value="2018-01-01" required></label><label>Berichte bis<input id="end" type="date" required></label></div>
+            <div class="form-row"><label>Alpha-Vantage-Schlüssel<input id="alpha-key" type="password" autocomplete="off" spellcheck="false" placeholder="Nur für diesen Abruf"></label><label>SerpAPI-Schlüssel<input id="serp-key" type="password" autocomplete="off" spellcheck="false" placeholder="Nur für diesen Abruf"></label></div>
+            <div class="form-row"><label>Maximale Anfragen pro Start<input id="request-limit" type="number" min="1" max="5000" value="25" required></label><label>Pause zwischen Anfragen (Sek.)<input id="request-pause" type="number" min="0" max="120" step="0.5" value="12.5" required></label></div>
+            <p class="small-note">Verwendet das Kontingent deiner Anbieter. Adjustierte Tageskurse benötigen bei Alpha Vantage einen passenden Tarif. Schlüssel werden nicht gespeichert.</p>
+            <button class="primary job-button" type="submit">Neuen Datenbestand sammeln</button>
+          </form>
+        </article>
+      </div>
+      <article class="work-card dataset-card">
+        <div class="dataset-heading"><div><p class="eyebrow">03 · Gesammelte Daten</p><h2>Datenbestand weiterverarbeiten</h2></div><label class="dataset-choice">Datenbestand<select id="dataset"><option value="">Noch kein neuer Bestand</option></select></label></div>
+        <p id="dataset-info" class="small-note">Neue Abrufe bleiben von den Daten der Seminararbeit getrennt.</p>
+        <div class="actions"><button id="resume" type="button" class="button job-button">Abruf fortsetzen</button><button id="prepare" type="button" class="button job-button">Daten prüfen</button><button id="analyse" type="button" class="primary job-button">Diesen Bestand analysieren</button></div>
+        <p class="small-note" id="finbert-state"></p><button id="install" type="button" class="button job-button">FinBERT einmalig einrichten</button>
+        <details class="timing-details"><summary>Fehlende Veröffentlichungszeiten ergänzen</summary>
+          <p>Unbekannte Zeiten werden nicht geschätzt. Füge belegte Zeiten als CSV ein. AMC bedeutet nach Börsenschluss, BMO vor Börseneröffnung; die Untersuchung verwendet AMC-Berichte.</p>
+          <textarea id="timing-csv" rows="5" aria-label="Veröffentlichungszeiten als CSV" placeholder="event_id,release_timing,source&#10;AAPL_2026-07-30,AMC,https://Quelle-des-Unternehmens"></textarea>
+          <p class="small-note">Speichern ersetzt die Korrekturtabelle dieses Datenbestands. Bereits erfasste Zeilen deshalb mit einfügen.</p>
+          <button id="timings" type="button" class="button job-button">Zeiten mit Quellen speichern</button>
+        </details>
+      </article>
+      <div class="job-panel" aria-live="polite"><div class="job-heading"><strong id="job-title">Bereit</strong><span id="job-status"></span></div><p id="job-message"></p><pre id="job-log" aria-label="Fortschritt"></pre></div>
+    </section>
+    <nav class="sources" aria-label="Quelle der Abbildungen">
+      <button type="button" class="source active" data-source="document" aria-pressed="true">In der Arbeit <span id="document-count"></span></button>
+      <button type="button" class="source" data-source="calculated" aria-pressed="false">Neu berechnet <span id="calculated-count"></span></button>
+    </nav>
+    <div class="run-choice"><label>Berechneter Ergebnisstand <select id="run"><option value="reference">Seminararbeit · geprüfte Ausgangsdaten</option></select></label><a id="report" href="../Ergebnisse/Ergebnisse.md" target="_blank" rel="noopener">Ergebnistabellen öffnen ↗</a></div>
+    <p id="source-note" class="source-note"></p>
+    <section class="toolbar" aria-label="Abbildungen filtern">
+      <label class="search-label"><span class="sr-only">Abbildungen durchsuchen</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Suchen, z. B. PREVOL oder Abbildung 16" autocomplete="off"></label>
+      <label class="select-label"><span>Thema</span><select id="category"><option value="all">Alle Themen</option><option>Überblick</option><option>CAR</option><option>|CAR|</option><option>Koeffizienten</option><option>Diagnostik</option><option>Robustheit</option></select></label>
+    </section>
+    <div class="results-header"><h2 id="section-title">Abbildungen im Arbeitsstand</h2><span id="result-count" role="status" aria-live="polite"></span></div>
+    <section id="gallery" class="gallery" aria-label="Abbildungen"></section>
+    <div id="empty" class="empty" hidden><h2>Keine passende Abbildung</h2><p>Versuche einen anderen Suchbegriff oder zeige alle Themen an.</p><button id="reset" class="button" type="button">Filter zurücksetzen</button></div>
+    <noscript>Für Suche und Galerie bitte JavaScript aktivieren. Die Bilder liegen auch im Ordner Abbildungen.</noscript>
+  </main>
+  <footer class="wrap footer"><span>CAR mit einfachen Renditen · Ereignisfenster [0, +1]</span><button id="stop-server" type="button" class="button">Interface beenden</button></footer>
+  <dialog id="viewer" aria-labelledby="viewer-title">
+    <div class="viewer-bar"><span id="viewer-position"></span><button id="close" class="icon-button" type="button" aria-label="Großansicht schließen">✕</button></div>
+    <div class="viewer-image"><img id="large-image" alt=""></div>
+    <div class="viewer-bottom"><div><p id="viewer-category" class="eyebrow"></p><h2 id="viewer-title"></h2><a id="original" target="_blank" rel="noopener">Originalgröße öffnen ↗</a></div><div class="viewer-nav"><button id="previous" class="icon-button" type="button" aria-label="Vorherige Abbildung">←</button><button id="next" class="icon-button" type="button" aria-label="Nächste Abbildung">→</button></div></div>
+  </dialog>
+</body>
+</html>

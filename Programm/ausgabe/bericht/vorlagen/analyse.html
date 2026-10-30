@@ -1,0 +1,16 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Event Study · Deine Ergebnisse</title><style>${inhalt_1}</style></head><body><main>
+<header class="report-header"><span class="eyebrow">EVENT STUDY · FORSCHUNGSWERKSTATT</span><h1>Deine Ergebnisse</h1><p class="muted">Erstellt ${inhalt_2} · ${inhalt_3}</p></header>
+<p>${inhalt_4}</p><button class="print-button" type="button">Gesamten Bericht drucken / als PDF speichern</button>
+<div class="tabs" role="tablist" aria-label="Zielgröße"><button id="tab-car" role="tab" data-target="car" aria-controls="car" aria-selected="true">Richtung der Kursreaktion</button><button id="tab-abs_car" role="tab" data-target="abs_car" aria-controls="abs_car" aria-selected="false" tabindex="-1">Größe der Kursreaktion</button></div>
+${inhalt_5}<article><h2>Überblick &amp; Belastbarkeit</h2>${inhalt_6}
+<p class="muted">Die Renditekurve verwendet alle Ereignisse mit gültiger CAR. Korrelationen und Regressionen verwenden die vollständige Regressionsstichprobe.</p>
+<details><summary>Event Study · Mittelwerte und Unsicherheit</summary><p>Renditen und Standardfehler in Dezimaleinheiten. 0,01 entspricht einem Prozentpunkt.</p>${inhalt_7}</details>
+${inhalt_8}<p class="muted">Die Unternehmensgrafiken verwenden dasselbe Modell bei wechselnder Stichprobe. Fehlgeschlagene Schätzungen werden unten dokumentiert; sie werden nicht durch Nullwerte ersetzt.</p>
+<details><summary>Weitere Robustheitsvarianten</summary><p>OLS, ln(ABS_CAR) und Gamma mit Log-Link haben unterschiedliche Koeffizientenskalen. Die Varianten sind explorativ; p-Werte sind nicht für multiples Testen korrigiert.</p>${inhalt_9}</details>
+<details><summary>ABS_CAR · Einzelne Ereignisse weglassen</summary><p>Spannweiten über die schätzbaren Ausschlussmodelle.</p>${inhalt_10}<a href="ABS_CAR_einzelereignisse.csv">Alle Ausschlussmodelle herunterladen</a></details>
+<details><summary>ABS_CAR · Wild-Cluster-Bootstrap</summary>${inhalt_11}</details>
+<details><summary>Nicht schätzbare Modelle · ${inhalt_12}</summary>${inhalt_13}</details>
+<p>Zusammenhänge sind keine kausalen Wirkungen und keine geprüften Vorhersagen. VOL und SEARCH können auf Veröffentlichung und Kursreaktion reagieren. Die Trends-Woche kann spätere Tage enthalten.</p>
+<details><summary>Stichprobe, Herkunft und methodische Hinweise</summary><ul>${inhalt_14}</ul></details></article>
+<article><h3>Daten und Rechenweg mitnehmen</h3><p>Die übersichtliche CSV enthält genau eine Zeile je event_id und 13 Spalten. Für deutsche Tabellenprogramme: Semikolon als Trennzeichen, Komma als Dezimalzeichen, UTF-8. Der jamovi-Export enthält dieselben Werte mit Komma als Trennzeichen und Dezimalpunkt.</p><div class="downloads">${inhalt_15}</div></article>
+<footer>Event Study · W-Seminar</footer></main><script>${inhalt_16}</script></body></html>

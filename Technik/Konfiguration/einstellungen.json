@@ -1,0 +1,59 @@
+{
+  "bestand": "",
+  "tickers": [
+    "AAPL",
+    "AMZN",
+    "GOOGL",
+    "META",
+    "MSFT"
+  ],
+  "start": "2018-01-01",
+  "end": "2026-04-30",
+  "benchmark": "SPY",
+  "return_type": "simple",
+  "window": [
+    0,
+    1
+  ],
+  "estimation": [
+    -250,
+    -30
+  ],
+  "predictors": [
+    "sue",
+    "vol",
+    "prevol",
+    "search",
+    "tone"
+  ],
+  "fixed_effects": true,
+  "winsorize": false,
+  "covariance": "cluster",
+  "only_amc": true,
+  "robustness": true,
+  "abs_car_robustness": false,
+  "abs_sue_for_abs_car": true,
+  "download_trends": true,
+  "download_transcripts": true,
+  "geo": "US",
+  "pause_seconds": 12.5,
+  "request_limit": 25,
+  "queries": {
+    "AAPL": "Apple stock",
+    "AMZN": "Amazon stock",
+    "GOOGL": "Alphabet stock",
+    "MSFT": "Microsoft stock",
+    "META": "Meta stock"
+  },
+  "meta_query_switch": "2021-10-28",
+  "fiscal_year_end": {
+    "AAPL": 9,
+    "AMZN": 12,
+    "GOOGL": 12,
+    "META": 12,
+    "MSFT": 6
+  },
+  "finbert_batch_size": 8,
+  "finbert_revision": "4921590d3c0c3832c0efea24c8381ce0bda7844b",
+  "sentiment_method": "sentence"
+}

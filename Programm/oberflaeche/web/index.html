@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Event Study Final</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<header><a class="brand" href="/"><span class="mark">↗</span><span>Event Study <small>FORSCHUNGSWERKSTATT · FINAL</small></span></a><span class="local"><i></i> Auf deinem Computer</span></header>
+<main>
+<div class="hero"><div><span class="eyebrow">QUARTALSBERICHTE VERSTEHEN</span><h1>Von Zahlen zu<br><em>Erkenntnissen.</em></h1><p class="intro">Untersuche, wie Gewinnüberraschungen, Sprache und Aufmerksamkeit mit Kursreaktionen zusammenhängen.</p></div><div class="hero-note"><span>DEIN ABLAUF</span><ol><li><b>01</b>Daten importieren oder sammeln</li><li><b>02</b>Daten und Texte aufbereiten</li><li><b>03</b>Formeln und Regressionen berechnen</li></ol><p>Jeder Schritt lässt sich einzeln starten. Bestehende FinBERT-Ergebnisse kannst du weiterverwenden.</p></div></div>
+<nav class="tabs" aria-label="Bereiche"><button class="active" data-tab="work">Analyse</button><button data-tab="data">Import & Download</button><button data-tab="results">Ergebnisse</button><button data-tab="guide">Anleitung</button></nav>
+<div id="notification" role="alert" hidden></div>
+<section id="job" class="job" hidden aria-live="polite"><div><span class="pulse"></span><strong id="job-title"></strong><span id="job-message"></span></div><details open><summary>Fortschritt</summary><pre id="job-log"></pre></details></section>
+<div class="workspace">
+<aside class="panel study-form">
+<div class="section-top"><span class="eyebrow">DEINE STICHPROBE</span><span class="badge">Anpassbar</span></div>
+<label for="bestand">Datenbestand</label><select id="bestand"><option value="">Zuerst Daten importieren</option></select><p id="bestand-info" class="hint"></p>
+<label for="tickers">Unternehmen</label><input id="tickers" placeholder="AAPL, AMZN, GOOGL, META, MSFT">
+<div class="two"><div><label for="start">Berichte ab</label><input id="start" type="date"></div><div><label for="end">Berichte bis</label><input id="end" type="date"></div></div>
+<label for="benchmark">Marktvergleich</label><input id="benchmark" placeholder="SPY">
+<div class="two"><div><label for="window-start">Ereignisfenster von</label><input id="window-start" type="number" min="-20" max="20"></div><div><label for="window-end">bis Handelstag</label><input id="window-end" type="number" min="-20" max="20"></div></div>
+<fieldset><legend>Einflussgrößen</legend>
+<label class="check"><input name="predictor" value="sue" type="checkbox"><span>Gewinnüberraschung <small>SUE</small></span></label>
+<label class="check"><input name="predictor" value="vol" type="checkbox"><span>Handelsvolumen <small>VOL an [0,+1]</small></span></label>
+<label class="check"><input name="predictor" value="prevol" type="checkbox"><span>Volumen im Vorlauf <small>PREVOL an [-3,-1]</small></span></label>
+<label class="check"><input name="predictor" value="tone" type="checkbox"><span>Gesprächstonalität <small>FinBERT · vollständiger Call</small></span></label>
+<label class="check"><input name="predictor" value="search" type="checkbox"><span>Suchinteresse <small>SEARCH · acht Vorwochen</small></span></label></fieldset>
+<label for="sentiment-method">Tonalitätsverfahren</label><select id="sentiment-method"><option value="sentence">FinBERT · einzelne Sätze</option><option value="lc_sentence">finbert-lc · einzelne Sätze</option><option value="lc_context">finbert-lc · längere Kontextabschnitte</option></select><p class="hint">finbert-lc folgt dem ausgewählten Forschungsansatz. Kontextabschnitte bestehen aus aufeinanderfolgenden vollständigen Sätzen.</p>
+<details class="advanced"><summary>Weitere Einstellungen</summary>
+<label for="return-type">Renditen</label><select id="return-type"><option value="simple">Einfach · Standard für CAR</option><option value="log">Logarithmisch · historische Vergleichsrechnung</option></select>
+<label for="covariance">Standardfehler</label><select id="covariance"><option value="cluster">Nach Ereignisdatum gruppiert · CR1</option><option value="HC3">Heteroskedastizitätsrobust · HC3</option></select>
+<div class="two"><div><label for="est-start">Schätzfenster von</label><input id="est-start" type="number"></div><div><label for="est-end">bis Handelstag</label><input id="est-end" type="number"></div></div>
+<label class="check"><input id="fixed-effects" type="checkbox"><span>Feste Effekte für Unternehmen, Jahr und Kalenderquartal</span></label>
+<label class="check"><input id="abs-sue" type="checkbox"><span>Für ABS_CAR den Betrag |SUE| verwenden</span></label>
+<label class="check"><input id="winsorize" type="checkbox"><span>SUE, VOL und PREVOL im Hauptmodell bei 1 % / 99 % begrenzen</span></label>
+<label class="check"><input id="only-amc" type="checkbox"><span>Nur Berichte nach Börsenschluss · AMC</span></label>
+<label class="check"><input id="robustness" type="checkbox"><span>Allgemeine Robustheitsvarianten für CAR und ABS_CAR</span></label>
+<label class="check"><input id="abs-robustness" type="checkbox"><span>Zusätzliche ABS_CAR-Prüfungen <small>Einzelereignisse, Ausreißer, alternative Modelle, Bootstrap</small></span></label>
+</details>
+<button id="save" class="secondary full">Einstellungen speichern</button><button id="all" class="primary full" data-action="all">Gesamte Analyse ausführen →</button><p class="hint">Verarbeitet den ausgewählten Bestand, berechnet bei Bedarf FinBERT und führt die Formeln und Regressionen aus.</p>
+</aside>
+<div class="content">
+<section class="tab-panel active" data-panel="work">
+<div class="panel"><div class="section-top"><span class="eyebrow">FÜNF DATEIEN, EIN KLARER ABLAUF</span><span class="badge">Einzeln ausführbar</span></div><h2>Schritt für Schritt.</h2><p>Importiere vorhandene Daten im nächsten Bereich oder starte mit einem neuen Download. Danach kannst du jeden Arbeitsschritt gezielt ausführen.</p>
+<div class="step"><span>01</span><div><h3>Datenakquise.py</h3><p>EPS, adjustierte Kurse, Transkripte und Trends-Rohdaten sammeln.</p></div><button class="secondary" data-switch="data">Daten wählen</button></div>
+<div class="step"><span>02</span><div><h3>Datenverarbeitung.py</h3><p>Tabellen vereinheitlichen und Ereignishandelstage bestimmen.</p></div><button class="secondary" data-action="process">Aufbereiten</button></div>
+<div class="step"><span>02b</span><div><h3>FinBERT.py</h3><p>Alle Sprecher des vollständigen Calls satzweise auswerten. Bei importierter Tonalität optional.</p></div><button class="secondary" data-action="finbert">FinBERT starten</button></div>
+<div class="step"><span>02c</span><div><h3>Sentimentverfahren vergleichen</h3><p>Bisheriges FinBERT, finbert-lc pro Satz und finbert-lc mit Kontext auf derselben Ereignisstichprobe vergleichen.</p></div><button class="secondary" data-action="sentiment_compare">Drei Verfahren vergleichen</button></div>
+<div class="step"><span>03</span><div><h3>Berechnung.py</h3><p>Einfache Tagesrenditen und kumulierte abnormale Renditen (CAR) berechnen. Datenbank und PSPP-Importdateien erstellen.</p></div><button class="secondary" data-action="calculate">Berechnen</button></div>
+<div class="step"><span>04</span><div><h3>Regression.py</h3><p>CAR und ABS_CAR, Event Study, Diagnostik und Robustheit auswerten.</p></div><button class="primary" data-action="regression">Regression starten</button></div>
+</div>
+<div class="panel"><span class="eyebrow">ERGEBNISSE VERSTEHEN</span><h2>Mehr als ein p-Wert.</h2><div class="reading-row"><b>Richtung</b><p>CAR beschreibt die vorzeichenbehaftete Kursreaktion.</p></div><div class="reading-row"><b>Ausmaß</b><p>ABS_CAR beschreibt die Größe der Bewegung unabhängig von ihrer Richtung.</p></div><div class="reading-row"><b>Unsicherheit</b><p>Konfidenzintervalle und Robustheitsanalysen zeigen, wie belastbar ein Zusammenhang ist.</p></div><p class="callout">Such- und Handelsaktivität können auf Kursbewegungen reagieren. Die Analyse erlaubt für sich genommen keine kausale Schlussfolgerung.</p></div>
+</section>
+<section class="tab-panel" data-panel="data">
+<div class="panel"><span class="eyebrow">DEINE DATEN WEITERVERWENDEN</span><h2>Vorhandene Daten importieren.</h2><p>Der vorhandene Datenstand aus „Event Study Upload“ ist voreingestellt. Du kannst auch einen eigenen Datenordner angeben.</p><label for="import-path">Ordner mit deinen Daten</label><input id="import-path"><p class="hint">Die Dateien werden in einen neuen Bestand kopiert. Eigene CSV-Daten können nach den Vorlagen im Ordner „Importvorlagen“ aufgebaut werden.</p><button class="primary" data-action="import">Daten importieren</button><p class="hint">Danach aufbereiten oder „Gesamte Analyse ausführen“ wählen. Importierte FinBERT-Tonalität wird weiterverwendet, sofern du FinBERT nicht ausdrücklich neu startest.</p></div>
+<div class="panel"><span class="eyebrow">NEUE ROHDATEN</span><h2>Daten herunterladen.</h2><p>Es gelten die Unternehmen und Berichtsdaten links. Historische EPS und Kurse benötigen ausreichend Vorlauf für SUE und das Schätzfenster.</p>
+<label for="av-key">Alpha-Vantage-Schlüssel</label><input id="av-key" type="password" autocomplete="off"><p class="hint">Die benötigten Endpunkte können einen kostenpflichtigen Tarif voraussetzen. <a href="https://www.alphavantage.co/documentation/" target="_blank" rel="noreferrer">Anbieterdokumentation ↗</a></p>
+<label for="serp-key">SerpAPI-Schlüssel für Google Trends</label><input id="serp-key" type="password" autocomplete="off"><p class="hint">Schlüssel werden für den Vorgang verwendet und nicht in den Einstellungen gespeichert.</p>
+<div class="two"><div><label for="request-limit">Maximal neue Anfragen</label><input id="request-limit" type="number" min="1" max="5000"></div><div><label for="pause">Pause zwischen Abrufen (Sekunden)</label><input id="pause" type="number" min="0" max="120" step=".5"></div></div>
+<label class="check"><input id="download-transcripts" type="checkbox"><span>Transkripte sammeln</span></label><label class="check"><input id="download-trends" type="checkbox"><span>Google-Trends-Wochenwerte sammeln</span></label>
+<details class="advanced"><summary>Suchbegriffe und Geschäftsjahresende</summary><p class="hint">Vor dem Download die Unternehmen links eintragen und „Angaben anzeigen“ wählen. META nutzt vor dem 28.10.2021 „Facebook stock“. Weitere Einstellungen stehen in einstellungen.json.</p><button id="company-refresh" class="secondary">Angaben anzeigen</button><div id="company-settings"></div></details>
+<div class="button-row"><button class="primary" data-action="download">Neuen Download starten</button><button class="secondary" data-action="resume">Ausgewählten Download fortsetzen</button></div><p class="hint">Bei erreichtem Anfragelimit denselben Download später fortsetzen. Bereits gespeicherte Antworten werden wiederverwendet.</p></div>
+</section>
+<section class="tab-panel" data-panel="results"><div class="panel"><span class="eyebrow">GESPEICHERTE AUSWERTUNGEN</span><h2>Deine Ergebnisse.</h2><label for="analysis">Auswertung</label><select id="analysis"><option value="">Noch keine Auswertung</option></select><div id="result-links" class="button-row"></div><p id="result-empty" class="hint">Nach einer Regression erscheinen hier der Bericht, Tabellen, Grafiken und die übersichtlichen Daten für jamovi und Excel.</p><iframe id="report" title="Ergebnisbericht" hidden></iframe></div></section>
+<section class="tab-panel" data-panel="guide"><div class="panel"><span class="eyebrow">EINFACH LOSLEGEN</span><h2>Die Dateien verstehen.</h2><ol class="guide-steps"><li>Einmal INSTALLIEREN.bat öffnen.</li><li>START_INTERFACE.bat öffnen.</li><li>Dein vorhandener Datenbestand ist bereits ausgewählt. Weitere Daten lassen sich unter „Import & Download“ ergänzen.</li><li>„Gesamte Analyse ausführen“ oder die einzelnen Schritte starten.</li><li>Ergebnisbericht ansehen. „Übersichtliche CSV · Excel“ öffnet die Daten spaltenweise. Für jamovi „Daten für jamovi“ und die zugehörige Anleitung verwenden.</li></ol><p>Nur für eine neue Textauswertung: vorher INSTALLIEREN_FINBERT.bat öffnen. Vorhandene Tonalitätsdaten benötigen diese Erweiterung nicht.</p><div class="button-row"><a class="secondary" href="/README.html" target="_blank">Anleitung mit Grafiken ↗</a><a class="secondary" href="/METHODIK.md" target="_blank">Formeln und Festlegungen ↗</a></div><p class="callout">Eine event_id entspricht einer Zeile. Die übersichtlichen Exporte enthalten 13 Spalten und keine fe_-Hilfsspalten. Deutsche CSV: Semikolon und Dezimalkomma; jamovi-CSV: Komma und Dezimalpunkt.</p></div></section>
+</div></div>
+</main><footer><span>Event Study · W-Seminar</span><span>Nachvollziehbare Daten. Sichtbare Unsicherheit.</span></footer>
+</body></html>
+

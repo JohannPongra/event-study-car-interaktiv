@@ -1,0 +1,1 @@
+"""datenerhebung – Event Study."""

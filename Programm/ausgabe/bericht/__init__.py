@@ -1,0 +1,1 @@
+"""bericht – Event Study."""

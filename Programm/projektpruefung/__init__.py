@@ -1,0 +1,1 @@
+"""projektpruefung – Event Study."""

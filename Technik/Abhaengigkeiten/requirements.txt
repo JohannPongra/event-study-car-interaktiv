@@ -1,0 +1,2 @@
+# Standardreproduktion ohne erneute KI-Inferenz.
+-r requirements-lock.txt

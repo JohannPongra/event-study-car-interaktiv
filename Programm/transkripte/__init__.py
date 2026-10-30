@@ -1,0 +1,1 @@
+"""transkripte – Event Study."""

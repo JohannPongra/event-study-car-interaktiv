@@ -1,0 +1,1 @@
+"""grafiken – Event Study."""

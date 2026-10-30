@@ -1,0 +1,1 @@
+"""berechnung – Event Study."""

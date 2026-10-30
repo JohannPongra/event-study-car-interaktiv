@@ -1,0 +1,2 @@
+# Grundausstattung mit Datenabruf
+-r Technik/Abhaengigkeiten/requirements-lock.txt

@@ -1,0 +1,1 @@
+"""datenaufbereitung – Event Study."""

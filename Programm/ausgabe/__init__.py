@@ -1,0 +1,1 @@
+"""ausgabe – Event Study."""
